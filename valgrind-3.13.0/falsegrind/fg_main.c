@@ -54,7 +54,12 @@ static void fg_track_new_mem_stack(Addr a, SizeT len)
 {
 	AddrInfo	ai = { .tag = Addr_Undescribed };
 	VG_(describe_addr)(a, &ai);
-	VG_(pp_addrinfo)(a, &ai);
+	//VG_(pp_addrinfo)(a, &ai);
+	
+	if (len > 2000) {
+		VG_(pp_addrinfo)(a, &ai);
+		VG_(printf)("found big alloc for %zu\n", len);
+	}
 	
 	//VG_(printf)("stack %zu\n", len);
 }
