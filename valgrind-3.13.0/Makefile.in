@@ -613,7 +613,8 @@ TOOLS = memcheck \
 		lackey \
 		none \
 		helgrind \
-		drd
+		drd \
+        falsegrind
 
 EXP_TOOLS = exp-sgcheck \
 		exp-bbv \

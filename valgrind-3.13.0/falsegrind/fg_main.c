@@ -29,7 +29,49 @@
 */
 
 #include "pub_tool_basics.h"
+#include "pub_tool_xarray.h"
+#include "pub_tool_debuginfo.h"
 #include "pub_tool_tooliface.h"
+#include "pub_tool_libcprint.h"
+#include "pub_tool_libcassert.h"
+#include "pub_tool_addrinfo.h"
+
+// START
+
+static void fg_track_new_mem_stack_signal(Addr a, SizeT len, ThreadId tid)
+{
+	VG_(printf)("here\n");
+	//VG_(exit)(1);
+}
+
+static void fg_track_new_mem_brk(Addr a, SizeT len, ThreadId tid)
+{
+	VG_(printf)("brk\n");
+	VG_(printf)("alloc %zu for thread %u\n", len, tid);
+}
+
+static void fg_track_new_mem_stack(Addr a, SizeT len)
+{
+	AddrInfo	ai = { .tag = Addr_Undescribed };
+	VG_(describe_addr)(a, &ai);
+	VG_(pp_addrinfo)(a, &ai);
+	
+	//VG_(printf)("stack %zu\n", len);
+}
+
+/*
+static void fg_track_new_mem_stack_w_ECU(Addr a, SizeT len, UInt ecu)
+{
+	VG_(printf)("stack_w_ECU %zu\n", len);
+}
+*/
+
+static void fg_track_die_mem_stack(Addr a, SizeT len)
+{
+	//VG_(printf)("die_stack %zu\n", len);
+}
+
+// BASIC TOOLS
 
 static void fg_post_clo_init(void)
 {
@@ -48,6 +90,7 @@ IRSB* fg_instrument ( VgCallbackClosure* closure,
 
 static void fg_fini(Int exitcode)
 {
+	VG_(printf)("TJENA 8\n");
 }
 
 static void fg_pre_clo_init(void)
@@ -61,9 +104,21 @@ static void fg_pre_clo_init(void)
 
    VG_(details_avg_translation_sizeB) ( 275 );
 
-   VG_(basic_tool_funcs)        (fg_post_clo_init,
-                                 fg_instrument,
-                                 fg_fini);
+   VG_(basic_tool_funcs)        	(fg_post_clo_init,
+                                 	 fg_instrument,
+                                 	 fg_fini);
+								 
+	VG_(track_new_mem_stack_signal)	(fg_track_new_mem_stack_signal);
+	VG_(track_new_mem_brk)			(fg_track_new_mem_brk);
+	VG_(track_new_mem_stack)		(fg_track_new_mem_stack);
+	//VG_(track_new_mem_stack_w_ECU)	(fg_track_new_mem_stack_w_ECU);
+	VG_(track_die_mem_stack)		(fg_track_die_mem_stack);
+	//VG_(needs_var_info)				();
+	
+	//VG_(exit)(1);
+	VG_(printf)("HEJJEJJE\n");
+	//VG:
+	//VG:
 
    /* No needs, no core events to track */
 }
