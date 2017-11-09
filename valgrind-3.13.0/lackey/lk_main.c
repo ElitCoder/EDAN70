@@ -187,6 +187,7 @@
 static Bool clo_basic_counts    = True;
 static Bool clo_detailed_counts = False;
 static Bool clo_trace_mem       = False;
+
 static Bool clo_trace_sbs       = False;
 
 /* The name of the function of which the number of calls (under
@@ -992,7 +993,7 @@ IRSB* lk_instrument ( VgCallbackClosure* closure,
       flushEvents(sbOut);
    }
 
-   return sbOut;
+   return sbOut/*sbOut*/;
 }
 
 static void lk_fini(Int exitcode)

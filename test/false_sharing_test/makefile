@@ -1,6 +1,7 @@
 C_FILES     := $(wildcard *.c)
 OBJ_FILES   := $(addprefix ./,$(notdir $(C_FILES:.c=.o)))
 C_FLAGS     := -std=c11 -Wextra -pedantic -Wall
+C_FLAGS		+= -g
 PROG_NAME   := false_sharing_test
 LD_LIBS     := -lpthread
 
