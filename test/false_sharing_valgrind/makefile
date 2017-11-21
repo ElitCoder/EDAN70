@@ -1,9 +1,9 @@
 C_FILES     := $(wildcard *.c)
 OBJ_FILES   := $(addprefix ./,$(notdir $(C_FILES:.c=.o)))
 C_FLAGS     := -std=c11 -Wextra -pedantic -Wall
-C_FLAGS		+= -g
+C_FLAGS		+= -g -fopenmp
 PROG_NAME   := false_sharing_valgrind
-LD_LIBS     := -lpthread
+LD_LIBS     := -lpthread -fopenmp
 
 $(PROG_NAME): $(OBJ_FILES)
 	gcc -o $@ $^ $(LD_LIBS)
