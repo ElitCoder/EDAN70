@@ -1,3 +1,56 @@
+#if 0
+#include <omp.h>
+
+int main(void)
+{
+	int*	result = malloc(sizeof(int) * 2);
+	int		i;
+	
+	omp_set_num_threads(2);
+	
+	#pragma omp parallel for
+	for (i = 0; i < 100000; i++)
+		result[omp_get_thread_num()]++;
+		
+	return 0;
+}
+#endif
+
+#if 0
+#include <pthread.h>
+
+static char*	g_p;
+
+void* a(void* args)
+{
+	g_p[0] = 0;
+	
+	return NULL;
+}
+
+void* b(void* args)
+{
+	g_p[1] = 0;
+	
+	return NULL;
+}
+
+int main(void)
+{
+	pthread_t	threads[2];
+	
+	g_p = malloc(128);
+	
+	pthread_create(&threads[0], NULL, a, NULL);
+	pthread_create(&threads[1], NULL, b, NULL);
+	
+	pthread_join(threads[0], NULL);
+	pthread_join(threads[1], NULL);
+	
+	return 0;
+}
+#endif
+
 #include <stdio.h>
 #include <limits.h>
 
