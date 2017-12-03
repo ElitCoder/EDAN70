@@ -1,4 +1,80 @@
 #if 0
+#include <pthread.h>
+
+pthread_mutex_t	g_mutex;
+static int		g_value[2];
+
+void* a(void* args)
+{
+	int	loc = g_value[0];
+	
+	sleep(4);
+	
+	loc = g_value[1];
+	
+	return NULL;
+}
+
+void* b(void* args)
+{
+	sleep(1);
+	
+	g_value[1] = 1;
+	
+	return NULL;
+}
+
+int main(void)
+{
+	pthread_t	threads[2];
+	
+	pthread_create(&threads[0], NULL, a, NULL);
+	pthread_create(&threads[1], NULL, b, NULL);
+	
+	pthread_join(threads[0], NULL);
+	pthread_join(threads[1], NULL);
+	
+	return 0;
+}
+#endif
+
+#if 0
+#include <pthread.h>
+
+static int	x[2];
+static int	y[1000];
+static int	z[1000];
+
+void* a(void* args)
+{
+	for (int i = 0; i < 1000; i++)
+		x[0] += y[i] * z[i];
+}
+
+void* b(void* args)
+{
+	for (int i = 0; i < 1000; i++)
+		x[1] += y[i] * z[i];
+}
+
+int main(void)
+{
+	pthread_t	threads[2];
+	
+	pthread_create(&threads[0], NULL, a, NULL);
+	pthread_create(&threads[1], NULL, b, NULL);
+	
+	pthread_join(threads[0], NULL);
+	pthread_join(threads[1], NULL);
+	
+	printf("%d\n", x[1]);
+	printf("%d\n", x[0]);
+	
+	return 0;
+}
+#endif
+
+#if 0
 #include <omp.h>
 
 int main(void)
