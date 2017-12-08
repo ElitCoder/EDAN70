@@ -748,8 +748,12 @@ static void fg_fini(Int exitcode)
 	free_vector(g_results);
 	free_vector(g_all_memory_accesses);
 	//free_vector(g_filenames);
-	VG_(printf)("Observe that this program ignores stack accesses and using OpenMP probably will result in false positives for true sharing. There can also be false positives for true sharing by e.g getting 1000 collisions for false sharing and one read makes it true sharing instead\n");
-	VG_(printf)("Compiled %s at %s\n", __DATE__, __TIME__);
+	VG_(printf)("Observe that this program is just a proof-of-concept and might not be correct\nCurrent problems:\n");
+	VG_(printf)("1. Stack references are ignored\n");
+	VG_(printf)("2. OpenMP results in false positives for true sharing\n");
+	VG_(printf)("3. Detecting true sharing is sometimes faulty\n");
+	//VG_(printf)("Observe that this program ignores stack accesses and using OpenMP probably will result in false positives for true sharing. There can also be false positives for true sharing by e.g getting 1000 collisions for false sharing and one read makes it true sharing instead\n");
+	VG_(printf)("\nCompiled %s at %s\n", __DATE__, __TIME__);
 }
 
 static void fg_pre_clo_init(void)
