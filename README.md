@@ -1,6 +1,4 @@
-# Project Title
-
-Detecting False Sharing Using Valgrind
+# Detecting False Sharing Using Valgrind
 
 ## Getting Started
 
